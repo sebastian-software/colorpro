@@ -1,11 +1,8 @@
-#!/usr/bin/env python3
+# ColorPro - Color Compution Helper
+# Copyright 2015 Sebastian Software GmbH, Germany
 
-"""
-ColorPro - Color Compution Helper
-Copyright 2015 Sebastian Software GmbH, Germany
-"""
-
-import sys, re, argparse
+import sys
+import re
 import colour
 import numpy
 
@@ -217,12 +214,3 @@ def read(filename, output):
     colorargs = match.groups()
     compute(colorargs[0], int(colorargs[1]), int(colorargs[2]), int(colorargs[3]), output=output)
 
-
-if __name__ == "__main__":
-  parser = argparse.ArgumentParser(description="Publish static files to Sebastian Software Cloud")
-  parser.add_argument("-o", "--output", help="The type of output is expected", default="scss", choices=["scss","print","affinity","text"])
-  parser.add_argument("input", nargs='*')
-  parsed = parser.parse_args()
-
-  for filename in parsed.input:
-    read(filename, parsed.output)
