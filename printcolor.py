@@ -13,10 +13,18 @@ import numpy
 # - Classic default was 2° (from 1931)
 # - Newer addition of 10° (from 1964)
 #
-# Das normale Sichtfeld der menschlichen Wahrnehmung ist allerdings größer als dieser 2°-Bereich.
+# Das 2°-Gesichtsfeld entspricht der Größe der Netzhautregion mit der dichtesten Packung von
+# Zapfen (Farbrezeptoren) im menschlichen Auge. Das normale Sichtfeld der menschlichen Wahrnehmung
+# ist allerdings größer als dieser 2°-Bereich.
+#
 # 1964 wurde deshalb das System für einen Normalbeobachter mit 10°-Sichtfeld eingeführt.
 # Als CIE-System wird auch heute noch das 2°-Sichtfeld-System unterstellt, sofern nichts
 # anderes angegeben ist.
+#
+# Da die heutigen Dimensionen für farbige Kleinbildschirme, zum Beispiel für Smartphones,
+# sehr gering ausfallen, gewinnt der 2°-Normalbeobachter von 1931 für kleine Betrachtungswinkel
+# wieder an Bedeutung. Für Print-Produkte mit einem normalerweise größeren Betrachungswinkel,
+# z.B. einem A4-Format, ist 10° daher interessanter.
 #
 # Constants for typical illuminants
 #
@@ -162,24 +170,12 @@ def compute(name, hue, lightness, saturation):
   hex_trans = rgb_to_hex(srgb)
 
   print("NAME      :", name)
-  print("CAM_65    :", formlist([hue, lightness, saturation]))
+  print("CAM-65    :", formlist([hue, lightness, saturation]))
   print("XYZ       :", formlist(xyz))
-  print("----------------------------------")
-  #print("LAB-65/10°:", formlist(lab_65_10))
-  #print("HLC-65/10°:", formlist(hlc_65_10))
-  #print("----------------------------------")
-  #print("LAB-65/2° :", formlist(lab_65_2))
-  #print("HLC-65/2° :", formlist(hlc_65_2))
-  #print("----------------------------------")
-  print("LAB-50/10°:", formlist(lab_50_10))
-  print("HLC-50/10°:", formlist(hlc_50_10))
-  print("----------------------------------")
   print("LAB-50/2° :", formlist(lab_50_2))
   print("HLC-50/2° :", formlist(hlc_50_2))
-  print("----------------------------------")
-  print("RGB       :", formlist(srgb_trans))
+  print("sRGB      :", formlist(srgb_trans))
   print("HEX       :", hex_trans)
-  print("")
   print("")
 
 
