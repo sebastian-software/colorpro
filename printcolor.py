@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 
-#
-# ColorPro - Color Compution Helper
-# Copyright 2015 Sebastian Software GmbH, Germany
-#
+"""
+ColorPro - Color Compution Helper
+Copyright 2015 Sebastian Software GmbH, Germany
+"""
 
-import sys
+import sys, re, argparse
 import colour
 import numpy
 
@@ -126,7 +126,7 @@ def rgb_to_hex(RGB):
   return HEX
 
 
-def formlist(value):
+def floatlist(value):
   """
   Generic color value number formatting with 000.00 pattern.
   """
@@ -134,7 +134,15 @@ def formlist(value):
   return "{0:6.2f}, {1:6.2f}, {2:6.2f}".format(*[round(x, 2) for x in value])
 
 
-def compute(name, hue, lightness, saturation):
+def intlist(value):
+  """
+  Generic color value number formatting with 000 pattern.
+  """
+
+  return "{0}, {1}, {2}".format(*[int(round(x)) for x in value])
+
+
+def compute(name, hue, lightness, saturation, output="scss"):
   """
   Outputs different conversations of the given CIECAM02 input.
   Uses CIECAM with the same "signature" as HLC
@@ -148,17 +156,17 @@ def compute(name, hue, lightness, saturation):
   )
   xyz_trans = [ value / 100 for value in xyz ]
 
-  lab_65_10 = colour.XYZ_to_Lab(xyz_trans, illuminant=ILLUMINANT_D65_10)
-  lch_65_10 = colour.Lab_to_LCHab(lab_65_10)
-  hlc_65_10 = [lch_65_10[2], lch_65_10[0], lch_65_10[1]]
+  #lab_65_10 = colour.XYZ_to_Lab(xyz_trans, illuminant=ILLUMINANT_D65_10)
+  #lch_65_10 = colour.Lab_to_LCHab(lab_65_10)
+  #hlc_65_10 = [lch_65_10[2], lch_65_10[0], lch_65_10[1]]
 
   lab_65_2 = colour.XYZ_to_Lab(xyz_trans, illuminant=ILLUMINANT_D65_2)
   lch_65_2 = colour.Lab_to_LCHab(lab_65_2)
   hlc_65_2 = [lch_65_2[2], lch_65_2[0], lch_65_2[1]]
 
-  lab_50_10 = colour.XYZ_to_Lab(xyz_trans, illuminant=ILLUMINANT_D50_10)
-  lch_50_10 = colour.Lab_to_LCHab(lab_50_10)
-  hlc_50_10 = [lch_50_10[2], lch_50_10[0], lch_50_10[1]]
+  #lab_50_10 = colour.XYZ_to_Lab(xyz_trans, illuminant=ILLUMINANT_D50_10)
+  #lch_50_10 = colour.Lab_to_LCHab(lab_50_10)
+  #hlc_50_10 = [lch_50_10[2], lch_50_10[0], lch_50_10[1]]
 
   lab_50_2 = colour.XYZ_to_Lab(xyz_trans, illuminant=ILLUMINANT_D50_2)
   lch_50_2 = colour.Lab_to_LCHab(lab_50_2)
@@ -169,41 +177,52 @@ def compute(name, hue, lightness, saturation):
 
   hex_trans = rgb_to_hex(srgb)
 
-  print("NAME      :", name)
-  print("CAM-65    :", formlist([hue, lightness, saturation]))
-  print("XYZ       :", formlist(xyz))
-  print("LAB-50/2° :", formlist(lab_50_2))
-  print("HLC-50/2° :", formlist(hlc_50_2))
-  print("sRGB      :", formlist(srgb_trans))
-  print("HEX       :", hex_trans)
-  print("")
+  if output == "text":
+    print("NAME      :", name)
+    print("CAM-65    :", floatlist([hue, lightness, saturation]))
+    print("XYZ       :", floatlist(xyz))
+    print("LAB-50/2° :", floatlist(lab_50_2))
+    print("HLC-50/2° :", floatlist(hlc_50_2))
+    print("LAB-65/2° :", floatlist(lab_65_2))
+    print("HLC-65/2° :", floatlist(hlc_65_2))
+    print("sRGB      :", floatlist(srgb_trans))
+    print("HEX       :", hex_trans)
+    print("")
+
+  elif output == "scss":
+    print("$%s: %s;" % (name, hex_trans))
+
+  elif output == "print":
+    print("%s = %s" % (name, intlist(lab_50_2)))
+
+  elif output == "affinity":
+    print("%s = %s" % (name, intlist(lab_65_2)))
 
 
-hue = 355
-triade = -137
+LINE_FORMAT = re.compile(r'([a-zA-Z0-9-]+)\s*:\s*([0-9]+),\s*([0-9]+),\s*([0-9]+)')
 
-#compute('dark-violet', hue, 15, 25)
-#compute('darker-violet', hue, 20, 40)
-compute('vibrant-violet', hue, 25, 55)
-#compute('light-violet', hue, 85, 15)
-#compute('white-violet', hue, 90, 7)
 
-# hue += triade
-# compute('dark-teal', hue, 15, 20)
-# compute('darker-teal', hue, 25, 30)
-# compute('vibrant-teal', hue, 35, 40)
-# compute('light-teal', hue, 85, 15)
-# compute('white-teal', hue, 90, 10)
-#
-# hue += triade
-# compute('dark-gold', hue, 35, 45)
-# compute('darker-gold', hue, 55, 50)
-# compute('vibrant-gold', hue, 75, 55)
-# compute('light-gold', hue, 85, 15)
-# compute('white-gold', hue, 96, 4)
+def read(filename, output):
+  for line in open(filename).readlines():
+    line = line.strip()
 
-"""
-CIECAM02-UCS
-Weiterentwicklung des CIECAM02-Farbraumes mit verbesserter Gleichabständigkeit
-Via: http://tuprints.ulb.tu-darmstadt.de/4304/1/Dissertation_Brueckner.pdf
-"""
+    if line == "" or line.startswith("#"):
+      continue
+
+    match = LINE_FORMAT.match(line)
+    if not match:
+      print("Invalid: %s" % line)
+      continue
+
+    colorargs = match.groups()
+    compute(colorargs[0], int(colorargs[1]), int(colorargs[2]), int(colorargs[3]), output=output)
+
+
+if __name__ == "__main__":
+  parser = argparse.ArgumentParser(description="Publish static files to Sebastian Software Cloud")
+  parser.add_argument("-o", "--output", help="The type of output is expected", default="scss", choices=["scss","print","affinity","text"])
+  parser.add_argument("input", nargs='*')
+  parsed = parser.parse_args()
+
+  for filename in parsed.input:
+    read(filename, parsed.output)
