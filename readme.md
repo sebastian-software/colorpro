@@ -29,7 +29,7 @@ $ python3 setup.py install
 Just pass a file with colors to `colorpro`
 
 ```bash
-$ colorpro file\_with\_colors.txt
+$ colorpro file_with_colors.txt
 ```
 
 ### Input
