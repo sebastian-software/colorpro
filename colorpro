@@ -1,0 +1,15 @@
+#!/usr/bin/env python3
+# ColorPro - Color Compution Helper
+# Copyright 2015 Sebastian Software GmbH, Germany
+
+import sys, argparse
+import colorpro
+
+if __name__ == "__main__":
+  parser = argparse.ArgumentParser(description="Publish static files to Sebastian Software Cloud")
+  parser.add_argument("-o", "--output", help="The type of output is expected", default="scss", choices=["scss","print","affinity","text"])
+  parser.add_argument("input", nargs='*')
+  parsed = parser.parse_args()
+
+  for filename in parsed.input:
+    colorpro.read(filename, parsed.output)
