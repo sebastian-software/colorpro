@@ -72,7 +72,7 @@ setup(
     )
   ],
 
-  scripts = [ "bin/colorpro" ]
+  scripts = [ "bin/colorpro" ],
 
   install_requires = [
     "numpy>=1.9",
