@@ -213,4 +213,3 @@ def read(filename, output):
 
     colorargs = match.groups()
     compute(colorargs[0], int(colorargs[1]), int(colorargs[2]), int(colorargs[3]), output=output)
-

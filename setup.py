@@ -37,7 +37,7 @@ setup(
   maintainer_email = 'team@sebastian-software.de',
 
   url = 'http://github.com/sebastian-software/colorpro',
-  download_url = "http://pypi.python.org/packages/source/c/colorpro/colorpro-%s.zip" % jasy.__version__,
+  download_url = "http://pypi.python.org/packages/source/c/colorpro/colorpro-%s.zip" % colorpro.__version__,
 
   license = "MIT",
   platforms = 'any',
