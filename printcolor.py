@@ -37,17 +37,17 @@ import numpy
 # - genutzt wird dieses Normlicht als Weißpunkt für sRGB, Adobe-RGB und die PAL/SECAM-TV-Norm
 
 OBSERVER_2 = colour.ILLUMINANTS.get('CIE 1931 2 Degree Standard Observer')
-OBSERVER_10 = colour.ILLUMINANTS.get('CIE 1964 10 Degree Standard Observer')
+# OBSERVER_10 = colour.ILLUMINANTS.get('CIE 1964 10 Degree Standard Observer')
 
 ILLUMINANT_D50_2 = OBSERVER_2.get('D50')
-ILLUMINANT_D50_10 = OBSERVER_10.get('D50')
+# ILLUMINANT_D50_10 = OBSERVER_10.get('D50')
 ILLUMINANT_D65_2 = OBSERVER_2.get('D65')
-ILLUMINANT_D65_10 = OBSERVER_10.get('D65')
+# ILLUMINANT_D65_10 = OBSERVER_10.get('D65')
 
 WHITEPOINT_D50_2 = colour.xyY_to_XYZ([ILLUMINANT_D50_2[0], ILLUMINANT_D50_2[1], 1]) * 100
-WHITEPOINT_D50_10 = colour.xyY_to_XYZ([ILLUMINANT_D50_10[0], ILLUMINANT_D50_10[1], 1]) * 100
+# WHITEPOINT_D50_10 = colour.xyY_to_XYZ([ILLUMINANT_D50_10[0], ILLUMINANT_D50_10[1], 1]) * 100
 WHITEPOINT_D65_2 = colour.xyY_to_XYZ([ILLUMINANT_D65_2[0], ILLUMINANT_D65_2[1], 1]) * 100
-WHITEPOINT_D65_10 = colour.xyY_to_XYZ([ILLUMINANT_D65_10[0], ILLUMINANT_D65_10[1], 1]) * 100
+# WHITEPOINT_D65_10 = colour.xyY_to_XYZ([ILLUMINANT_D65_10[0], ILLUMINANT_D65_10[1], 1]) * 100
 
 # Typische Beleuchtungsstärken:
 # - Heller Sonnentag       100.000 lx
