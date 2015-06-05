@@ -1,6 +1,8 @@
 # ColorPro - Color Compution Helper
 # Copyright 2015 Sebastian Software GmbH, Germany
 
+__version__ = "0.2"
+
 import sys
 import re
 import colour

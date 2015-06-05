@@ -11,16 +11,7 @@ if sys.version < "3.3":
   print("ColorPro requires Python 3.3 or higher")
   sys.exit(1)
 
-# Prefer setuptools (aka distribute) over distutils
-# - Distutils comes with Python3 but is not capable of installing requires, extras, etc.
-# - Distribute is a fork of the Setuptools project (http://packages.python.org/distribute/)
-try:
-  from setuptools import setup
-  uses = "distribute"
-except ImportError:
-  print("ColorPro prefers distribute over distutils for installing dependencies!")
-  from distutils.core import setup
-  uses = "distutils"
+from setuptools import setup
 
 # Import ColorPro for version info etc.
 import colorpro
@@ -59,7 +50,7 @@ setup(
     "Topic :: Software Development"
   ],
 
-  packages = [
+  py_modules = [
     "colorpro"
   ],
 
@@ -72,7 +63,7 @@ setup(
     )
   ],
 
-  scripts = [ "bin/colorpro" ],
+  scripts = [ "colorpro" ],
 
   install_requires = [
     "numpy>=1.9",
