@@ -75,8 +75,8 @@ setup(
   scripts = [ "bin/colorpro" ]
 
   install_requires = [
-    "colour-science>=0.3",
     "numpy>=1.9",
-    "scipy>=0.15"
+    "scipy>=0.15",
+    "colour-science>=0.3"
   ]
 )
