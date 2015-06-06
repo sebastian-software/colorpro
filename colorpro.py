@@ -172,9 +172,15 @@ def compute(name, hue, lightness, saturation, output="scss"):
   hlc_50_2 = [lch_50_2[2], lch_50_2[0], lch_50_2[1]]
 
   srgb = colour.XYZ_to_sRGB(xyz_trans)
-  srgb_trans = [ value * 255 for value in srgb ]
 
-  hex_trans = rgb_to_hex(srgb)
+  validRGB = True
+  for entry in srgb:
+    if entry > 1:
+      validRGB = False
+
+  srgb_trans = [ value * 255 for value in srgb ] if validRGB else [0,0,0]
+
+  hex_trans = rgb_to_hex(srgb) if validRGB else "EXCEEDS"
 
   if output == "text":
     print("NAME      :", name)
