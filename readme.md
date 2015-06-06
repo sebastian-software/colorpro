@@ -29,7 +29,7 @@ $ python3 setup.py install
 Just pass a file with colors to `colorpro`
 
 ```bash
-$ colorpro file_with_colors.txt
+$ colorpro file-with-colors.txt
 ```
 
 ### Input
@@ -64,6 +64,14 @@ $vibrant-teal: #15788d;
 $light-teal: #cfe4eb;
 $white-teal: #e1edf1;
 ```
+
+One great trick on Mac OS to copy the result to the clipboard:
+
+```
+colorpro file-with-colors.txt | pbcopy
+```
+
+Now just paste the result into your editor e.g. the file with the Sass variables.
 
 There is also an output of D50 LAB colors via the `--output print` flag:
 
